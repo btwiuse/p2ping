@@ -9,5 +9,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let local_key_pair = Keypair::ed25519_from_bytes(ZERO_KEY)?;
     let local_peer_id = PeerId::from(local_key_pair.public());
     println!("Local peer id: {local_peer_id:?}!");
+    let transport = libp2p::development_transport(local_key_pair).await?;
     Ok(())
 }
