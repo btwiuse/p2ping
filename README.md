@@ -140,10 +140,24 @@ BehaviourEvent: Received { peer_id: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PE
 ...
 ```
 
+ping a waku node
+
+```
+$ p2ping /dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303
+Local peer id: PeerId("12D3KooWDzV6JX2HBek34cAXA1H8YxEPmUA9jeMPR7LVrV53VPts")!
+Dialed /dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303
+Listening on "/ip4/127.0.0.1/tcp/36903"
+Listening on "/ip4/172.17.0.10/tcp/36903"
+Unhandled: ConnectionEstablished { peer_id: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c"), endpoint: Dialer { address: "/dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 608.588839ms }
+BehaviourEvent: Sent { peer_id: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c") }
+BehaviourEvent: Event { peer: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c"), result: Ok(Ping { rtt: 133.555147ms }) }
+BehaviourEvent: Received { peer_id: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c"), info: Info { public_key: Secp256k1(PublicKey(compressed): 23bac887ca65afab7ed4d2abe2a7e78ab7c2056faae429497f8604c3d37cfc9), protocol_version: "ipfs/0.1.0", agent_version: "go-waku", listen_addrs: ["/dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303", "/dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/443/wss"], protocols: ["/ipfs/ping/1.0.0", "/libp2p/circuit/relay/0.2.0/stop", "/ipfs/id/1.0.0", "/ipfs/id/push/1.0.0", "/meshsub/1.1.0", "/meshsub/1.0.0", "/floodsub/1.0.0", "/vac/waku/relay/2.0.0", "/vac/waku/store/2.0.0-beta4", "/vac/waku/lightpush/2.0.0-beta1", "/vac/waku/filter-subscribe/2.0.0-beta1", "/vac/waku/filter-push/2.0.0-beta1", "/libp2p/dcutr", "/libp2p/autonat/1.0.0", "/libp2p/circuit/relay/0.2.0/hop"], observed_addr: "/ip4/34.168.120.6/tcp/40798" } }
+...
+```
+
 Note: only TCP/WS/WSS transport is supported
 
 References:
 - https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
 - https://github.com/libp2p/specs/blob/master/ping/ping.md
 - https://github.com/libp2p/specs/tree/master/identify
-
