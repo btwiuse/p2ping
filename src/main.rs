@@ -1,5 +1,5 @@
-use libp2p::swarm::{keep_alive, NetworkBehaviour, Swarm};
-use libp2p::{identity::Keypair, ping, PeerId};
+use libp2p::swarm::{keep_alive, NetworkBehaviour, SwarmBuilder};
+use libp2p::{identity::Keypair, ping, Multiaddr, PeerId};
 use std::error::Error;
 
 const ZERO_KEY: [u8; 32] = [0u8; 32];
@@ -12,7 +12,20 @@ async fn main() -> Result<(), Box<dyn Error>> {
     println!("Local peer id: {local_peer_id:?}!");
     let transport = libp2p::development_transport(local_key_pair).await?;
     let behaviour = Behaviour::default();
-    let mut swarm = Swarm::with_async_std_executor(transport, behaviour, local_peer_id);
+    let mut swarm =
+        SwarmBuilder::with_async_std_executor(transport, behaviour, local_peer_id).build();
+
+    // Tell the swarm to listen on all interfaces and a random, OS-assigned
+    // port.
+    swarm.listen_on("/ip4/0.0.0.0/tcp/0".parse()?)?;
+
+    // Dial the peer identified by the multi-address given as the second
+    // command-line argument, if any.
+    if let Some(addr) = std::env::args().nth(1) {
+        let remote: Multiaddr = addr.parse()?;
+        swarm.dial(remote)?;
+        println!("Dialed {addr}")
+    }
 
     Ok(())
 }
