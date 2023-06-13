@@ -1,8 +1,13 @@
-use libp2p::{identity, PeerId};
+use libp2p::{identity::Keypair, PeerId};
 use std::error::Error;
 
+const ZERO_KEY: [u8; 32] = [0u8; 32];
+
 #[async_std::main]
-async fn main() -> Result<(), Box<dyn Error>>{
-    println!("Hello, world!");
+async fn main() -> Result<(), Box<dyn Error>> {
+    // let local_key_pair = Keypair::generate_ed25519();
+    let local_key_pair = Keypair::ed25519_from_bytes(ZERO_KEY)?;
+    let local_peer_id = PeerId::from(local_key_pair.public());
+    println!("Local peer id: {local_peer_id:?}!");
     Ok(())
 }
