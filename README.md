@@ -94,6 +94,21 @@ BehaviourEvent: Received { peer_id: PeerId("12D3KooWLDpZ5sWtSmZtiHXBstoQVwMAZ5yR
 ...
 ```
 
+ping a gossamer/westend node
+
+```
+$ p2ping /ip4/127.0.0.1/tcp/7001
+Local peer id: PeerId("12D3KooWSDch7HgzwyYMZx1KKDMs7WrxJPHjVSPB7VkFEztti8FZ")!
+Dialed /ip4/127.0.0.1/tcp/7001
+Listening on "/ip4/127.0.0.1/tcp/46565"
+Listening on "/ip4/172.17.0.10/tcp/46565"
+Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH"), endpoint: Dialer { address: "/ip4/127.0.0.1/tcp/7001", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 2.555127ms }
+BehaviourEvent: Event { peer: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH"), result: Ok(Ping { rtt: 329.651µs }) }
+BehaviourEvent: Sent { peer_id: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH") }
+BehaviourEvent: Received { peer_id: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH"), info: Info { public_key: Ed25519(PublicKey(compressed): 4950d895b317a62b72170eb9176113f7e94671626c6c6f79c51b44aeea8e2), protocol_version: "ipfs/0.1.0", agent_version: "github.com/ChainSafe/gossamer@9688f6c25", listen_addrs: ["/ip4/127.0.0.1/tcp/7001", "/ip4/34.168.120.6/tcp/7001", "/ip4/34.168.120.6/tcp/7001"], protocols: ["/ipfs/ping/1.0.0", "/ipfs/id/1.0.0", "/ipfs/id/push/1.0.0", "/e143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e/grandpa/1", "/wnd2/sync/2", "/wnd2/light/2", "/wnd2/block-announces/1", "/wnd2/transactions/1", "/wnd2/kad"], observed_addr: "/ip4/127.0.0.1/tcp/38352" } }
+...
+```
+
 ping an ipfs node
 
 ```
