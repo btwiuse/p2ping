@@ -1,4 +1,4 @@
-use libp2p::swarm::{keep_alive, NetworkBehaviour};
+use libp2p::swarm::{keep_alive, NetworkBehaviour, Swarm};
 use libp2p::{identity::Keypair, ping, PeerId};
 use std::error::Error;
 
@@ -12,6 +12,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     println!("Local peer id: {local_peer_id:?}!");
     let transport = libp2p::development_transport(local_key_pair).await?;
     let behaviour = Behaviour::default();
+    let mut swarm = Swarm::with_async_std_executor(transport, behaviour, local_peer_id);
+
     Ok(())
 }
 
