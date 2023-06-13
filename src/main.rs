@@ -1,4 +1,5 @@
-use libp2p::swarm::{keep_alive, NetworkBehaviour, SwarmBuilder};
+use libp2p::futures::StreamExt;
+use libp2p::swarm::{keep_alive, NetworkBehaviour, SwarmBuilder, SwarmEvent};
 use libp2p::{identity::Keypair, ping, Multiaddr, PeerId};
 use std::error::Error;
 
@@ -17,7 +18,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Tell the swarm to listen on all interfaces and a random, OS-assigned
     // port.
-    swarm.listen_on("/ip4/0.0.0.0/tcp/0".parse()?)?;
+    swarm.listen_on("/ip4/0.0.0.0/tcp/33333".parse()?)?;
 
     // Dial the peer identified by the multi-address given as the second
     // command-line argument, if any.
@@ -27,7 +28,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
         println!("Dialed {addr}")
     }
 
-    Ok(())
+    loop {
+        match swarm.select_next_some().await {
+            SwarmEvent::NewListenAddr { address, .. } => println!("Listening on {address:?}"),
+            SwarmEvent::Behaviour(event) => println!("{event:?}"),
+            _ => {}
+        }
+    }
 }
 
 /// Our network behaviour.
