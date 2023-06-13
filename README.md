@@ -21,3 +21,4 @@ Note: only WS/WSS transport is supported, if you want TCP, follow the first refe
 References:
 - https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
 - https://github.com/libp2p/specs/blob/master/ping/ping.md
+- https://github.com/libp2p/specs/tree/master/identify
