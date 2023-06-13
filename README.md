@@ -28,6 +28,24 @@ BehaviourEvent: Received { peer_id: PeerId("12D3KooWL6xRw3oM6BsufNvYjsAo2RMYgrdZ
 ...
 ```
 
+ping a local substrate node
+
+```
+$ p2ping /ip4/127.0.0.1/tcp/30333/ws
+Local peer id: PeerId("12D3KooWBFv1PYQhEbnqQ2iRbimWkQ4WtcXoz97jrgUDu6CjaWem")!
+Dialed /ip4/127.0.0.1/tcp/30333/ws
+Listening on "/ip4/127.0.0.1/tcp/43503/ws"
+Listening on "/ip4/172.25.225.112/tcp/43503/ws"
+Listening on "/ip4/10.42.1.0/tcp/43503/ws"
+Listening on "/ip4/10.42.1.1/tcp/43503/ws"
+Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), endpoint: Dialer { address: "/ip4/127.0.0.1/tcp/30333/ws", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 1.357398ms }
+BehaviourEvent: Event { peer: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), result: Ok(Pong) }
+BehaviourEvent: Event { peer: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), result: Ok(Ping { rtt: 185.129µs }) }
+BehaviourEvent: Sent { peer_id: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3") }
+BehaviourEvent: Received { peer_id: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), info: Info { public_key: Ed25519(PublicKey(compressed): b7e76fe7196a9ab3bb5fae19a5aa8928f18564abb5d79252d3ccb73f49289a), protocol_version: "/substrate/1.0", agent_version: "Substrate Node/v3.0.0-dev-416b0f50bba (overrated-curve-2441)", listen_addrs: ["/ip4/127.0.0.1/tcp/30333/ws"], protocols: ["/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/block-announces/1", "/sup/block-announces/1", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/transactions/1", "/sup/transactions/1", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/grandpa/1", "/paritytech/grandpa/1", "/ipfs/ping/1.0.0", "/ipfs/id/1.0.0", "/ipfs/id/push/1.0.0", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/kad", "/sup/kad", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/sync/2", "/sup/sync/2", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/light/2", "/sup/light/2", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/sync/warp", "/sup/sync/warp", "/5b5d336a176e90a66918c742376f96bdfeccc43b1da64b69ccf2b3ac7a01a84a/state/2", "/sup/state/2"], observed_addr: "/ip4/127.0.0.1/tcp/53560/ws" } }
+...
+```
+
 ping a polkadot node
 
 ```
@@ -97,4 +115,3 @@ References:
 - https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
 - https://github.com/libp2p/specs/blob/master/ping/ping.md
 - https://github.com/libp2p/specs/tree/master/identify
-
