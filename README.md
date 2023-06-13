@@ -124,9 +124,26 @@ BehaviourEvent: Received { peer_id: PeerId("QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5g
 ...
 ```
 
+ping a starcoin node
+
+```
+$ p2ping /dns4/main3.seed.starcoin.org/tcp/9840
+Local peer id: PeerId("12D3KooWC2tk5DzM1Z4V3e1RXJ11py5QEEgPdSqtxZZnotx3puLw")!
+Dialed /dns4/main3.seed.starcoin.org/tcp/9840
+Listening on "/ip4/127.0.0.1/tcp/46763"
+Listening on "/ip4/172.17.0.10/tcp/46763"
+Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), endpoint: Dialer { address: "/dns4/main3.seed.starcoin.org/tcp/9840", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 395.840971ms }
+BehaviourEvent: Event { peer: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), result: Ok(Pong) }
+BehaviourEvent: Event { peer: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), result: Ok(Ping { rtt: 89.343772ms }) }
+BehaviourEvent: Sent { peer_id: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H") }
+BehaviourEvent: Received { peer_id: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), info: Info { public_key: Ed25519(PublicKey(compressed): 13de653e65863dc138933bf775aa2d98c05de5a7acc5287a601c5a4bb4), protocol_version: "/starcoin/1.0", agent_version: "starcoin/1.13.5 (build:v1.13.5) (nutty-cap-5609)", listen_addrs: ["/dns4/main3.seed.starcoin.org/tcp/9840", "/ip4/192.168.122.163/tcp/9840", "/ip4/192.168.69.212/tcp/9840", "/ip4/192.168.249.155/tcp/9840", "/ip4/192.168.224.230/tcp/9840", "/ip4/192.168.233.251/tcp/9840", "/ip4/192.168.211.151/tcp/9840", "/ip4/127.0.0.1/tcp/9840", "/ip4/192.168.108.198/tcp/9840"], protocols: ["/starcoin/block/1", "/starcoin/txn/1", "/starcoin/announcement/1", "/ipfs/ping/1.0.0", "/ipfs/id/1.0.0", "/ipfs/id/push/1.0.0", "/chain/1/kad", "/starcoin/rpc/get_txns", "/starcoin/rpc/get_state_node_by_node_hash", "/starcoin/rpc/get_block_infos", "/starcoin/rpc/get_accumulator_node_by_node_hash", "/starcoin/rpc/get_txns_with_hash_from_pool", "/starcoin/rpc/get_block_ids", "/starcoin/rpc/ping", "/starcoin/rpc/get_headers_by_hash", "/starcoin/rpc/get_blocks", "/starcoin/rpc/get_txn_infos", "/starcoin/rpc/get_account_state", "/starcoin/rpc/get_headers_by_number", "/starcoin/rpc/get_txns_from_pool", "/starcoin/rpc/get_state_with_table_item_proof", "/starcoin/rpc/get_state_with_proof", "/starcoin/rpc/get_bodies_by_hash"], observed_addr: "/ip4/192.168.99.244/tcp/58470" } }
+...
+```
+
 Note: only TCP/WS/WSS transport is supported
 
 References:
 - https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
 - https://github.com/libp2p/specs/blob/master/ping/ping.md
 - https://github.com/libp2p/specs/tree/master/identify
+
