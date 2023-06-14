@@ -5,12 +5,10 @@ use std::error::Error;
 
 // const ZERO_KEY: [u8; 32] = [0u8; 32];
 const P2PING_PROTOCOL_VERSION: &str = "/p2ping/0.0.0";
+const LISTEN_ADDRS: &[&str] = &["/ip4/0.0.0.0/tcp/0", "/ip4/0.0.0.0/tcp/0/ws"];
 
 #[async_std::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let tcp_listen_addr = "/ip4/0.0.0.0/tcp/0";
-    let ws_listen_addr = "/ip4/0.0.0.0/tcp/0/ws";
-
     let local_key_pair = Keypair::generate_ed25519();
     // let local_key_pair = Keypair::ed25519_from_bytes(ZERO_KEY)?;
     let local_peer_id = PeerId::from(local_key_pair.public());
@@ -22,8 +20,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Tell the swarm to listen on all interfaces and a random, OS-assigned
     // port.
-    swarm.listen_on(tcp_listen_addr.parse()?)?;
-    swarm.listen_on(ws_listen_addr.parse()?)?;
+    for addr in LISTEN_ADDRS {
+        swarm.listen_on(addr.parse()?)?;
+    }
 
     // Dial the peer identified by the multi-address given as the second
     // command-line argument, if any.
