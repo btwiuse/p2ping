@@ -28,12 +28,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // let local_key_pair = Keypair::ed25519_from_bytes(ZERO_KEY)?;
     let local_peer_id = PeerId::from(local_key_pair.public());
     println!("Local peer id: {local_peer_id:?}!");
-    // let transport = libp2p::development_transport(local_key_pair).await?;
-    let transport = if is_ws {
-        p2ping::ws_transport(local_key_pair.clone()).await?
-    } else {
-        p2ping::tcp_transport(local_key_pair.clone()).await?
-    };
+    let transport = p2ping::dev_transport(local_key_pair.clone(), is_ws).await?;
     let behaviour = Behaviour::new(&P2PING_PROTOCOL_VERSION, local_key_pair.public());
     let mut swarm =
         SwarmBuilder::with_async_std_executor(transport, behaviour, local_peer_id).build();
