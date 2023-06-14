@@ -8,34 +8,22 @@ const P2PING_PROTOCOL_VERSION: &str = "/p2ping/0.0.0";
 
 #[async_std::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let mut is_ws = false;
-    if let Some(addr) = std::env::args().nth(1) {
-        if addr.ends_with("/ws")
-            || addr.ends_with("/wss")
-            || addr.contains("/ws/")
-            || addr.contains("wss")
-        {
-            is_ws = true
-        }
-    }
-
-    let mut listen_addr = "/ip4/0.0.0.0/tcp/0";
-    if is_ws {
-        listen_addr = "/ip4/0.0.0.0/tcp/0/ws";
-    }
+    let tcp_listen_addr = "/ip4/0.0.0.0/tcp/0";
+    let ws_listen_addr = "/ip4/0.0.0.0/tcp/0/ws";
 
     let local_key_pair = Keypair::generate_ed25519();
     // let local_key_pair = Keypair::ed25519_from_bytes(ZERO_KEY)?;
     let local_peer_id = PeerId::from(local_key_pair.public());
     println!("Local peer id: {local_peer_id:?}!");
-    let transport = p2ping::dev_transport(local_key_pair.clone(), is_ws).await?;
+    let transport = p2ping::dev_transport(local_key_pair.clone()).await?;
     let behaviour = Behaviour::new(&P2PING_PROTOCOL_VERSION, local_key_pair.public());
     let mut swarm =
         SwarmBuilder::with_async_std_executor(transport, behaviour, local_peer_id).build();
 
     // Tell the swarm to listen on all interfaces and a random, OS-assigned
     // port.
-    swarm.listen_on(listen_addr.parse()?)?;
+    swarm.listen_on(tcp_listen_addr.parse()?)?;
+    swarm.listen_on(ws_listen_addr.parse()?)?;
 
     // Dial the peer identified by the multi-address given as the second
     // command-line argument, if any.
