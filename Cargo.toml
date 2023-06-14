@@ -5,6 +5,7 @@ edition = "2021"
 license = "MIT"
 description = "ping a libp2p peer"
 repository = "https://github.com/btwiuse/p2ping"
+documentation = "https://docs.rs/p2ping"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
