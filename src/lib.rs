@@ -1,13 +1,16 @@
 use either::Either;
 use libp2p::core;
 use libp2p::dns;
-use libp2p::identity;
+use libp2p::identify;
 use libp2p::noise;
+use libp2p::ping;
+use libp2p::swarm::{keep_alive, NetworkBehaviour};
 use libp2p::tcp;
 use libp2p::websocket;
 use libp2p::yamux;
 use libp2p::PeerId;
 use libp2p::Transport;
+use libp2p::{identity, identity::PublicKey};
 
 // libp2p::development_transport modified to support either tcp or websockets
 //
@@ -51,4 +54,25 @@ pub async fn dev_transport(
         .multiplex(yamux::Config::default())
         .timeout(std::time::Duration::from_secs(20))
         .boxed())
+}
+
+/// Our network behaviour.
+///
+/// For illustrative purposes, this includes the [`KeepAlive`](behaviour::KeepAlive) behaviour so a continuous sequence of
+/// pings can be observed.
+#[derive(NetworkBehaviour)]
+pub struct Behaviour {
+    keep_alive: keep_alive::Behaviour,
+    ping: ping::Behaviour,
+    identify: identify::Behaviour,
+}
+
+impl Behaviour {
+    pub fn new(protocol: &str, pubkey: PublicKey) -> Self {
+        Self {
+            keep_alive: Default::default(),
+            ping: Default::default(),
+            identify: identify::Behaviour::new(identify::Config::new(protocol.to_string(), pubkey)),
+        }
+    }
 }

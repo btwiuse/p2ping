@@ -1,6 +1,6 @@
 use libp2p::futures::StreamExt;
-use libp2p::swarm::{keep_alive, NetworkBehaviour, SwarmBuilder, SwarmEvent};
-use libp2p::{identify, identity::Keypair, identity::PublicKey, ping, Multiaddr, PeerId};
+use libp2p::swarm::{SwarmBuilder, SwarmEvent};
+use libp2p::{identity::Keypair, Multiaddr, PeerId};
 use std::error::Error;
 
 // const ZERO_KEY: [u8; 32] = [0u8; 32];
@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let local_peer_id = PeerId::from(local_key_pair.public());
     println!("Local peer id: {local_peer_id:?}!");
     let transport = p2ping::dev_transport(local_key_pair.clone()).await?;
-    let behaviour = Behaviour::new(P2PING_PROTOCOL_VERSION, local_key_pair.public());
+    let behaviour = p2ping::Behaviour::new(P2PING_PROTOCOL_VERSION, local_key_pair.public());
     let mut swarm =
         SwarmBuilder::with_async_std_executor(transport, behaviour, local_peer_id).build();
 
@@ -37,27 +37,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
             SwarmEvent::NewListenAddr { address, .. } => println!("Listening on {address:?}"),
             SwarmEvent::Behaviour(event) => println!("{event:?}"),
             x => println!("Unhandled: {x:?}"),
-        }
-    }
-}
-
-/// Our network behaviour.
-///
-/// For illustrative purposes, this includes the [`KeepAlive`](behaviour::KeepAlive) behaviour so a continuous sequence of
-/// pings can be observed.
-#[derive(NetworkBehaviour)]
-struct Behaviour {
-    keep_alive: keep_alive::Behaviour,
-    ping: ping::Behaviour,
-    identify: identify::Behaviour,
-}
-
-impl Behaviour {
-    fn new(protocol: &str, pubkey: PublicKey) -> Self {
-        Self {
-            keep_alive: Default::default(),
-            ping: Default::default(),
-            identify: identify::Behaviour::new(identify::Config::new(protocol.to_string(), pubkey)),
         }
     }
 }
