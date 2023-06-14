@@ -42,10 +42,8 @@ pub async fn dev_transport(
         }
     };
 
-    let noise_keys = noise::Keypair::<noise::X25519Spec>::new()
-        .into_authentic(&keypair)
-        .unwrap();
-    let noise_config = noise::NoiseConfig::xx(noise_keys).into_authenticated();
+    // https://github.com/paritytech/substrate/blob/2cc1667545f5e715fb94d492a2a2385ec8e00c7c/client/network/src/transport.rs#L83
+    let noise_config = noise::Config::new(&keypair).expect("Can create noise config. qed");
 
     Ok(transport
         .upgrade(core::upgrade::Version::V1)
