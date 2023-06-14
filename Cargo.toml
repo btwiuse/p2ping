@@ -12,4 +12,4 @@ repository = "https://github.com/btwiuse/p2ping"
 async-std = { version = "1.12.0", features = ["attributes"] }
 either = "1.8.1"
 futures = "0.3.28"
-libp2p = { version = "0.51.3", features = ["tcp", "dns", "async-std", "noise", "mplex", "yamux", "websocket", "ping", "macros", "identify", "rsa", "secp256k1"] }
+libp2p = { version = "0.51.3", features = ["tcp", "dns", "async-std", "noise", "mplex", "yamux", "websocket", "ping", "macros", "identify", "rsa", "secp256k1", "quic"] }
