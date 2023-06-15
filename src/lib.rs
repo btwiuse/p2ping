@@ -10,7 +10,7 @@ use libp2p::websocket;
 use libp2p::yamux;
 use libp2p::PeerId;
 use libp2p::Transport;
-use libp2p::{identity, identity::PublicKey};
+use libp2p::{relay, identity, identity::PublicKey};
 
 // libp2p::development_transport modified to support either tcp or websockets
 //
@@ -65,15 +65,17 @@ pub struct Behaviour {
     keep_alive: keep_alive::Behaviour,
     ping: ping::Behaviour,
     identify: identify::Behaviour,
+    relay: relay::Behaviour,
 }
 
 impl Behaviour {
     pub fn new(protocol: &str, agent_version: &str, pubkey: PublicKey) -> Self {
-        let identify_config = identify::Config::new(protocol.to_string(), pubkey)
+        let identify_config = identify::Config::new(protocol.to_string(), pubkey.clone())
             .with_agent_version(agent_version.to_string());
         Self {
             keep_alive: Default::default(),
             ping: Default::default(),
+            relay: relay::Behaviour::new(PeerId::from(pubkey), Default::default()),
             identify: identify::Behaviour::new(identify_config),
         }
     }
