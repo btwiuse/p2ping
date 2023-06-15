@@ -161,3 +161,4 @@ References:
 - https://docs.rs/libp2p/latest/libp2p/tutorials/ping/index.html
 - https://github.com/libp2p/specs/blob/master/ping/ping.md
 - https://github.com/libp2p/specs/tree/master/identify
+- https://github.com/multiformats/multiaddr/blob/master/protocols/DNSADDR.md
