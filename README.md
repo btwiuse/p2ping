@@ -13,7 +13,7 @@ Options:
       --protocol-version <PROTOCOL_VERSION>
           P2ping identify protocol version [default: /p2ping/0.0.0]
       --agent-version <AGENT_VERSION>
-          P2ping identify agent version [default: "p2ping-dev"]
+          P2ping identify agent version [default: "p2ping/dev"]
   -k, --node-key <NODE_KEY>
           The 32-byte secret key to use for libp2p networking. If unsupplied, a random one will be generated, e.g. 0x0000000000000000000000000000000000000000000000000000000000000000
   -l, --listen-addr <LISTEN_ADDR>

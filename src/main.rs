@@ -10,7 +10,7 @@ pub struct Config {
     #[clap(long, default_value = "/p2ping/0.0.0")]
     /// P2ping identify protocol version
     protocol_version: String,
-    #[clap(long, default_value = "p2ping-dev")]
+    #[clap(long, default_value = "p2ping/dev")]
     /// P2ping identify agent version
     agent_version: String,
     #[clap(long, short = 'k')]
