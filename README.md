@@ -2,11 +2,33 @@
 
 ping a libp2p peer via the ping protocol (`/ipfs/ping/1.0.0`)
 
-start a local peer
+```
+$ p2ping --help
+Usage: p2ping [OPTIONS] [PEER_ADDR]
+
+Arguments:
+  [PEER_ADDR]  Peer address, e.g. /ip4/127.0.0.1/tcp/30333, /dns/polkadot-connect-0.parity.io/tcp/443/wss
+
+Options:
+      --protocol-version <PROTOCOL_VERSION>
+          P2ping identify protocol version [default: /p2ping/0.0.0]
+      --agent-version <AGENT_VERSION>
+          P2ping identify agent version [default: "p2ping 0.0.4"]
+  -k, --node-key <NODE_KEY>
+          The 32-byte secret key to use for libp2p networking. If unsupplied, a random one will be generated, e.g. 0x0000000000000000000000000000000000000000000000000000000000000000
+  -l, --listen-addr <LISTEN_ADDR>
+          Listening address, e.g. /ip4/0.0.0.0/tcp/0, /ip4/0.0.0.0/tcp/0/ws
+  -h, --help
+          Print help
+```
+
+start a local peer with listening addresses
 
 ```
-$ p2ping
+$ p2ping -l /ip4/0.0.0.0/tcp/0 -l /ip4/0.0.0.0/tcp/0/ws
 Local peer id: PeerId("12D3KooWAPdkjL5PdpZwXUM3nrQ4BntYCxkCrsD4zh9yWaa2VYck")!
+Listening on "/ip4/127.0.0.1/tcp/42967/ws"
+Listening on "/ip4/172.17.0.10/tcp/42967/ws"
 Listening on "/ip4/127.0.0.1/tcp/34619"
 Listening on "/ip4/172.17.0.10/tcp/34619"
 ...
@@ -18,8 +40,6 @@ ping a local peer
 $ p2ping /ip4/127.0.0.1/tcp/36017
 Local peer id: PeerId("12D3KooWKYZJ2me7H5zCkCb7f7Qm2cpuY2CVh6E9vtA7ipwFJJmS")!
 Dialed /ip4/127.0.0.1/tcp/36017
-Listening on "/ip4/127.0.0.1/tcp/35751"
-Listening on "/ip4/172.17.0.10/tcp/35751"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWL6xRw3oM6BsufNvYjsAo2RMYgrdZZopDDXgiUSmrHTGz"), endpoint: Dialer { address: "/ip4/127.0.0.1/tcp/36017", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 2.530644ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWL6xRw3oM6BsufNvYjsAo2RMYgrdZZopDDXgiUSmrHTGz"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWL6xRw3oM6BsufNvYjsAo2RMYgrdZZopDDXgiUSmrHTGz"), result: Ok(Ping { rtt: 387.365µs }) }
@@ -34,10 +54,6 @@ ping a local substrate node
 $ p2ping /ip4/127.0.0.1/tcp/30333/ws
 Local peer id: PeerId("12D3KooWBFv1PYQhEbnqQ2iRbimWkQ4WtcXoz97jrgUDu6CjaWem")!
 Dialed /ip4/127.0.0.1/tcp/30333/ws
-Listening on "/ip4/127.0.0.1/tcp/43503/ws"
-Listening on "/ip4/172.25.225.112/tcp/43503/ws"
-Listening on "/ip4/10.42.1.0/tcp/43503/ws"
-Listening on "/ip4/10.42.1.1/tcp/43503/ws"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), endpoint: Dialer { address: "/ip4/127.0.0.1/tcp/30333/ws", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 1.357398ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYfvVgSKqece8wmuzb3"), result: Ok(Ping { rtt: 185.129µs }) }
@@ -52,8 +68,6 @@ ping a polkadot node
 $ p2ping /dns/polkadot-connect-0.parity.io/tcp/443/wss
 Local peer id: PeerId("12D3KooWBn8V34vXTrPQUi2TzD2W4af56YJrR5JzS8CW6YwLvCP4")!
 Dialed /dns/polkadot-connect-0.parity.io/tcp/443/wss
-Listening on "/ip4/127.0.0.1/tcp/36287/ws"
-Listening on "/ip4/172.17.0.10/tcp/36287/ws"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNWH5bE965nyBMDrB4o"), endpoint: Dialer { address: "/dns/polkadot-connect-0.parity.io/tcp/443/wss", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 997.157414ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNWH5bE965nyBMDrB4o"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNWH5bE965nyBMDrB4o"), result: Ok(Ping { rtt: 141.852165ms }) }
@@ -68,8 +82,6 @@ ping a kusama node
 $ p2ping /dns/kusama-connect-0.parity.io/tcp/443/wss
 Local peer id: PeerId("12D3KooWGdJxhNULZg8fUMG7hfXfKxhVjmRSH6fVebY1TeGm7xMw")!
 Dialed /dns/kusama-connect-0.parity.io/tcp/443/wss
-Listening on "/ip4/127.0.0.1/tcp/46653/ws"
-Listening on "/ip4/172.17.0.10/tcp/46653/ws"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWBjxpFhVNM9poSsMEfdnXJaSWSZQ7otK9aV1SPA9zJp5W"), endpoint: Dialer { address: "/dns/kusama-connect-0.parity.io/tcp/443/wss", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 1.008873122s }
 BehaviourEvent: Event { peer: PeerId("12D3KooWBjxpFhVNM9poSsMEfdnXJaSWSZQ7otK9aV1SPA9zJp5W"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWBjxpFhVNM9poSsMEfdnXJaSWSZQ7otK9aV1SPA9zJp5W"), result: Ok(Ping { rtt: 141.629363ms }) }
@@ -84,8 +96,6 @@ ping a vara node
 $ p2ping /dns4/vara-connect-1.vara-network.io/tcp/30333/ws
 Local peer id: PeerId("12D3KooWGsfAuVaaAAWogPZXbmqtutq36PUEPvu1ESC7Dj4ZU47i")!
 Dialed /dns4/vara-connect-1.vara-network.io/tcp/30333/ws
-Listening on "/ip4/127.0.0.1/tcp/46347/ws"
-Listening on "/ip4/172.17.0.10/tcp/46347/ws"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWLDpZ5sWtSmZtiHXBstoQVwMAZ5yRWpDUBdjQHV7vBLHy"), endpoint: Dialer { address: "/dns4/vara-connect-1.vara-network.io/tcp/30333/ws", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 181.385946ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWLDpZ5sWtSmZtiHXBstoQVwMAZ5yRWpDUBdjQHV7vBLHy"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWLDpZ5sWtSmZtiHXBstoQVwMAZ5yRWpDUBdjQHV7vBLHy"), result: Ok(Ping { rtt: 21.969799ms }) }
@@ -100,8 +110,6 @@ ping a gossamer/westend node
 $ p2ping /ip4/127.0.0.1/tcp/7001
 Local peer id: PeerId("12D3KooWSDch7HgzwyYMZx1KKDMs7WrxJPHjVSPB7VkFEztti8FZ")!
 Dialed /ip4/127.0.0.1/tcp/7001
-Listening on "/ip4/127.0.0.1/tcp/46565"
-Listening on "/ip4/172.17.0.10/tcp/46565"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH"), endpoint: Dialer { address: "/ip4/127.0.0.1/tcp/7001", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 2.555127ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH"), result: Ok(Ping { rtt: 329.651µs }) }
 BehaviourEvent: Sent { peer_id: PeerId("12D3KooWEkYjHhH4VSrL8poAj1rXP3ELTcRvSiKC9a1TWefbhvCH") }
@@ -115,8 +123,6 @@ ping an ipfs node
 $ p2ping /dnsaddr/bootstrap.libp2p.io
 Local peer id: PeerId("12D3KooWQM6NQ9FEZ7YJUTxbbxfMB13ujgvTjW1LVd44n4juZLNX")!
 Dialed /dnsaddr/bootstrap.libp2p.io
-Listening on "/ip4/127.0.0.1/tcp/34381"
-Listening on "/ip4/172.17.0.10/tcp/34381"
 Unhandled: ConnectionEstablished { peer_id: PeerId("QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN"), endpoint: Dialer { address: "/dnsaddr/bootstrap.libp2p.io", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 204.634288ms }
 BehaviourEvent: Sent { peer_id: PeerId("QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN") }
 BehaviourEvent: Event { peer: PeerId("QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN"), result: Ok(Ping { rtt: 17.9902ms }) }
@@ -130,8 +136,6 @@ ping a starcoin node
 $ p2ping /dns4/main3.seed.starcoin.org/tcp/9840
 Local peer id: PeerId("12D3KooWC2tk5DzM1Z4V3e1RXJ11py5QEEgPdSqtxZZnotx3puLw")!
 Dialed /dns4/main3.seed.starcoin.org/tcp/9840
-Listening on "/ip4/127.0.0.1/tcp/46763"
-Listening on "/ip4/172.17.0.10/tcp/46763"
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), endpoint: Dialer { address: "/dns4/main3.seed.starcoin.org/tcp/9840", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 395.840971ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWB9vGtpgqyD2cG4PTEU1SHSuWV6PErMPJFbbi5vYpkj3H"), result: Ok(Ping { rtt: 89.343772ms }) }
@@ -146,8 +150,6 @@ ping a waku node
 $ p2ping /dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303
 Local peer id: PeerId("12D3KooWDzV6JX2HBek34cAXA1H8YxEPmUA9jeMPR7LVrV53VPts")!
 Dialed /dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303
-Listening on "/ip4/127.0.0.1/tcp/36903"
-Listening on "/ip4/172.17.0.10/tcp/36903"
 Unhandled: ConnectionEstablished { peer_id: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c"), endpoint: Dialer { address: "/dns4/node-01.do-ams3.go-waku.prod.statusim.net/tcp/30303", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 608.588839ms }
 BehaviourEvent: Sent { peer_id: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c") }
 BehaviourEvent: Event { peer: PeerId("16Uiu2HAkyScd7DiwgMwzfw8CFFhznH3wRzciqEUfjDzn7vyimR8c"), result: Ok(Ping { rtt: 133.555147ms }) }

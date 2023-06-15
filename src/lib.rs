@@ -68,11 +68,13 @@ pub struct Behaviour {
 }
 
 impl Behaviour {
-    pub fn new(protocol: &str, pubkey: PublicKey) -> Self {
+    pub fn new(protocol: &str, agent_version: &str, pubkey: PublicKey) -> Self {
+        let identify_config = identify::Config::new(protocol.to_string(), pubkey)
+            .with_agent_version(agent_version.to_string());
         Self {
             keep_alive: Default::default(),
             ping: Default::default(),
-            identify: identify::Behaviour::new(identify::Config::new(protocol.to_string(), pubkey)),
+            identify: identify::Behaviour::new(identify_config),
         }
     }
 }
