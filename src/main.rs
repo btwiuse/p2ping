@@ -31,7 +31,7 @@ pub struct Config {
     peer_addr: Option<String>,
 }
 
-#[async_std::main]
+#[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::parse();
 

@@ -10,7 +10,7 @@ use libp2p::websocket;
 use libp2p::yamux;
 use libp2p::PeerId;
 use libp2p::Transport;
-use libp2p::{relay, identity, identity::PublicKey};
+use libp2p::{identity, identity::PublicKey, relay};
 
 // libp2p::development_transport modified to support either tcp or websockets
 //
@@ -22,8 +22,8 @@ pub async fn dev_transport(
     let transport = {
         // Main transport: DNS(TCP)
         let tcp_config = tcp::Config::new().nodelay(true);
-        let tcp_trans = tcp::async_io::Transport::new(tcp_config.clone());
-        let dns_init = dns::DnsConfig::system(tcp_trans).await;
+        let tcp_trans = tcp::tokio::Transport::new(tcp_config.clone());
+        let dns_init = dns::TokioDnsConfig::system(tcp_trans);
 
         if let Ok(dns) = dns_init {
             // WS + WSS transport
@@ -31,16 +31,15 @@ pub async fn dev_transport(
             // Main transport can't be used for `/wss` addresses because WSS transport needs
             // unresolved addresses (BUT WSS transport itself needs an instance of DNS transport to
             // resolve and dial addresses).
-            let tcp_trans = tcp::async_io::Transport::new(tcp_config);
-            let dns_for_wss = dns::DnsConfig::system(tcp_trans)
-                .await
+            let tcp_trans = tcp::tokio::Transport::new(tcp_config);
+            let dns_for_wss = dns::TokioDnsConfig::system(tcp_trans)
                 .expect("same system_conf & resolver to work");
             Either::Left(websocket::WsConfig::new(dns_for_wss).or_transport(dns))
         } else {
             // In case DNS can't be constructed, fallback to TCP + WS (WSS won't work)
-            let tcp_trans = tcp::async_io::Transport::new(tcp_config.clone());
+            let tcp_trans = tcp::tokio::Transport::new(tcp_config.clone());
             let desktop_trans = websocket::WsConfig::new(tcp_trans)
-                .or_transport(tcp::async_io::Transport::new(tcp_config));
+                .or_transport(tcp::tokio::Transport::new(tcp_config));
             Either::Right(desktop_trans)
         }
     };
