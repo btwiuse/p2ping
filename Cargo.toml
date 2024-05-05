@@ -1,6 +1,6 @@
 [package]
 name = "p2ping"
-version = "0.0.6"
+version = "0.0.7"
 edition = "2021"
 license = "MIT"
 description = "ping a libp2p peer"
@@ -14,5 +14,8 @@ clap = { version = "4.4", features = ["derive"] }
 either = "1.8.1"
 futures = "0.3.30"
 hex = "0.4.3"
-libp2p = { version = "0.51.4", features = ["tcp", "dns", "tokio", "noise", "yamux", "websocket", "ping", "macros", "identify", "rsa", "secp256k1", "quic", "relay", "ecdsa", "kad"] }
-tokio = { version = "1.35.1", features = ["full"] }
+libp2p = { version = "0.53.2", features = ["tcp", "dns", "tokio", "noise", "yamux", "websocket", "ping", "macros", "identify", "rsa", "secp256k1", "quic", "relay", "ecdsa", "kad"] }
+libp2p-noise = "0.44.0"
+libp2p-tls = "0.3.0"
+libp2p-yamux = "0.45.1"
+tokio = { version = "1.37.0", features = ["full"] }

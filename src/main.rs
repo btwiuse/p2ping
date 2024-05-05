@@ -1,7 +1,8 @@
 use clap::Parser;
 use hex::FromHex;
 use libp2p::futures::StreamExt;
-use libp2p::swarm::{SwarmBuilder, SwarmEvent};
+use libp2p::swarm::SwarmEvent;
+use libp2p::SwarmBuilder;
 use libp2p::{identity::Keypair, Multiaddr, PeerId};
 use std::error::Error;
 
@@ -48,14 +49,34 @@ async fn main() -> Result<(), Box<dyn Error>> {
     };
     let local_peer_id = PeerId::from(local_key_pair.public());
     println!("Local peer id: {local_peer_id:?}");
-    let transport = p2ping::dev_transport(local_key_pair.clone()).await?;
     let behaviour = p2ping::Behaviour::new(
         &config.protocol_version,
         &config.agent_version,
         local_key_pair.public(),
     );
-    let mut swarm =
-        SwarmBuilder::with_async_std_executor(transport, behaviour, local_peer_id).build();
+    let mut swarm = SwarmBuilder::with_existing_identity(local_key_pair)
+        .with_tokio()
+        .with_tcp(
+            Default::default(),
+            (libp2p_tls::Config::new, libp2p_noise::Config::new),
+            libp2p_yamux::Config::default,
+        )?
+        .with_quic()
+        .with_dns()?
+        .with_websocket(
+            (libp2p_tls::Config::new, libp2p_noise::Config::new),
+            libp2p_yamux::Config::default,
+        )
+        .await?
+        .with_relay_client(
+            (libp2p_tls::Config::new, libp2p_noise::Config::new),
+            libp2p_yamux::Config::default,
+        )?
+        .with_behaviour(|_key, _relay| behaviour)?
+        .with_swarm_config(|cfg| {
+            cfg.with_idle_connection_timeout(std::time::Duration::from_secs(60))
+        })
+        .build();
 
     // Tell the swarm to listen on specified multiaddrs.
     for addr in &config.listen_addr {

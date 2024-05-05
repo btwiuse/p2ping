@@ -25,12 +25,10 @@ Options:
 start a local peer with listening addresses
 
 ```
-$ p2ping -l /ip4/0.0.0.0/tcp/0 -l /ip4/0.0.0.0/tcp/0/ws
+$ p2ping -l /ip4/127.0.0.1/tcp/0 -l /ip4/127.0.0.1/tcp/0/ws
 Local peer id: PeerId("12D3KooWAPdkjL5PdpZwXUM3nrQ4BntYCxkCrsD4zh9yWaa2VYck")!
 Listening on "/ip4/127.0.0.1/tcp/42967/ws"
-Listening on "/ip4/172.17.0.10/tcp/42967/ws"
 Listening on "/ip4/127.0.0.1/tcp/34619"
-Listening on "/ip4/172.17.0.10/tcp/34619"
 ...
 ```
 
@@ -65,9 +63,9 @@ BehaviourEvent: Received { peer_id: PeerId("12D3KooWAbEVvwBD1XMewYAmUxLyv2pPBQYf
 ping a polkadot node
 
 ```
-$ p2ping /dns/polkadot-connect-0.parity.io/tcp/443/wss
+$ p2ping /dns/polkadot-bootnode-0.parity.io/tcp/443/wss
 Local peer id: PeerId("12D3KooWBn8V34vXTrPQUi2TzD2W4af56YJrR5JzS8CW6YwLvCP4")!
-Dialed /dns/polkadot-connect-0.parity.io/tcp/443/wss
+Dialed /dns/polkadot-bootnode-0.parity.io/tcp/443/wss
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNWH5bE965nyBMDrB4o"), endpoint: Dialer { address: "/dns/polkadot-connect-0.parity.io/tcp/443/wss", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 997.157414ms }
 BehaviourEvent: Event { peer: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNWH5bE965nyBMDrB4o"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNWH5bE965nyBMDrB4o"), result: Ok(Ping { rtt: 141.852165ms }) }
@@ -79,9 +77,9 @@ BehaviourEvent: Received { peer_id: PeerId("12D3KooWEPmjoRpDSUuiTjvyNDd8fejZ9eNW
 ping a kusama node
 
 ```
-$ p2ping /dns/kusama-connect-0.parity.io/tcp/443/wss
+$ p2ping /dns/kusama-bootnode-0.parity.io/tcp/443/wss
 Local peer id: PeerId("12D3KooWGdJxhNULZg8fUMG7hfXfKxhVjmRSH6fVebY1TeGm7xMw")!
-Dialed /dns/kusama-connect-0.parity.io/tcp/443/wss
+Dialed /dns/kusama-bootnode-0.parity.io/tcp/443/wss
 Unhandled: ConnectionEstablished { peer_id: PeerId("12D3KooWBjxpFhVNM9poSsMEfdnXJaSWSZQ7otK9aV1SPA9zJp5W"), endpoint: Dialer { address: "/dns/kusama-connect-0.parity.io/tcp/443/wss", role_override: Dialer }, num_established: 1, concurrent_dial_errors: Some([]), established_in: 1.008873122s }
 BehaviourEvent: Event { peer: PeerId("12D3KooWBjxpFhVNM9poSsMEfdnXJaSWSZQ7otK9aV1SPA9zJp5W"), result: Ok(Pong) }
 BehaviourEvent: Event { peer: PeerId("12D3KooWBjxpFhVNM9poSsMEfdnXJaSWSZQ7otK9aV1SPA9zJp5W"), result: Ok(Ping { rtt: 141.629363ms }) }
