@@ -5,6 +5,7 @@ use libp2p::swarm::SwarmEvent;
 use libp2p::SwarmBuilder;
 use libp2p::{identity::Keypair, Multiaddr, PeerId};
 use std::error::Error;
+use strum::EnumString;
 
 #[derive(clap::Parser)]
 pub struct Config {
@@ -19,6 +20,9 @@ pub struct Config {
     ///   e.g.
     ///   0x0000000000000000000000000000000000000000000000000000000000000000
     node_key: Option<String>,
+    #[clap(long, short = 't', default_value = "ed25519")]
+    /// The key type of the node key. Available options: ed25519, secp256k1, ecdsa
+    key_type: KeyType,
     #[clap(long, short = 'l')]
     /// Listening address,
     ///   e.g.
@@ -32,6 +36,17 @@ pub struct Config {
     peer_addr: Option<String>,
 }
 
+#[derive(Debug, Default, Clone, EnumString)]
+pub enum KeyType {
+    #[strum(serialize = "ed25519")]
+    #[default]
+    Ed25519,
+    #[strum(serialize = "secp256k1")]
+    Secp256k1,
+    #[strum(serialize = "ecdsa")]
+    Ecdsa,
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::parse();
@@ -41,11 +56,17 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let local_key_pair = match config.node_key {
-        Some(key) => {
-            let key_bytes = <[u8; 32]>::from_hex(key.trim_start_matches("0x"))?;
-            Keypair::ed25519_from_bytes(key_bytes)?
-        }
-        None => Keypair::generate_ed25519(),
+        Some(key) => match config.key_type {
+            KeyType::Ed25519 | KeyType::Secp256k1 | KeyType::Ecdsa => {
+                let key_bytes = <[u8; 32]>::from_hex(key.trim_start_matches("0x"))?;
+                Keypair::ed25519_from_bytes(key_bytes)?
+            }
+        },
+        None => match config.key_type {
+            KeyType::Ed25519 => Keypair::generate_ed25519(),
+            KeyType::Secp256k1 => Keypair::generate_secp256k1(),
+            KeyType::Ecdsa => Keypair::generate_ecdsa(),
+        },
     };
     let local_peer_id = PeerId::from(local_key_pair.public());
     println!("Local peer id: {local_peer_id:?}");
