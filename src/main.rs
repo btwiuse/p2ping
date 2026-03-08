@@ -8,6 +8,7 @@ use std::error::Error;
 use strum::EnumString;
 
 #[derive(clap::Parser)]
+#[command(version)]
 pub struct Config {
     #[clap(long, default_value = "/p2ping/0.0.0")]
     /// P2ping identify protocol version
